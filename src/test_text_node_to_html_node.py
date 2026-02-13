@@ -46,7 +46,6 @@ class TestTextNodeToHTMLNode(unittest.TestCase):
         )
 
     def test_invalid_text_type(self):
-        # This tests the default case
         class InvalidTextType(Enum):
             INVALID = "invalid"
 

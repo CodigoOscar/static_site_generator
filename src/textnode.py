@@ -6,9 +6,9 @@ from htmlnode import LeafNode
 
 class TextType(Enum):
     TEXT = "text"
-    BOLD = "bold text"
-    ITALIC = "italic text"
-    CODE = "code text"
+    BOLD = "bold"
+    ITALIC = "italic"
+    CODE = "code"
     LINK = "link"
     IMAGE = "image"
 
@@ -31,24 +31,18 @@ class TextNode:
 
 
 def text_node_to_html_node(text_node):
-    match text_node.text_type:
-        case TextType.TEXT:
-            return LeafNode(tag=None, value=text_node.text)
-        case TextType.BOLD:
-            return LeafNode(tag="b", value=text_node.text)
-        case TextType.ITALIC:
-            return LeafNode(tag="i", value=text_node.text)
-        case TextType.CODE:
-            return LeafNode(tag="code", value=text_node.text)
-        case TextType.LINK:
-            return LeafNode(
-                tag="a", value=text_node.text, props={"href": f"{text_node.url}"}
-            )
-        case TextType.IMAGE:
-            return LeafNode(
-                tag="img",
-                value=text_node.text,
-                props={"src": f"{text_node.url}", "alt": f"{text_node.text}"},
-            )
-        case _:
-            raise Exception("Not a Valid Text Type")
+    if text_node.text_type == TextType.TEXT:
+        return LeafNode(None, text_node.text)
+    if text_node.text_type == TextType.BOLD:
+        return LeafNode("b", text_node.text)
+    if text_node.text_type == TextType.ITALIC:
+        return LeafNode("i", text_node.text)
+    if text_node.text_type == TextType.CODE:
+        return LeafNode("code", text_node.text)
+    if text_node.text_type == TextType.LINK:
+        return LeafNode("a", text_node.text, {"href": text_node.url})
+    if text_node.text_type == TextType.IMAGE:
+        return LeafNode(
+            "img", text_node.text, {"src": text_node.url, "alt": text_node.text}
+        )
+    raise Exception("Not a Valid Text Type")
